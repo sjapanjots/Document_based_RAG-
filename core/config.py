@@ -1,10 +1,20 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict
+)
 
 
 class Settings(BaseSettings):
+
     APP_NAME: str = "Document RAG Assistant"
+
     APP_VERSION: str = "1.0.0"
-    API_PREFIX: str = "/api/v1"
+
+    UPLOAD_DIRECTORY: str = "data/uploads"
+
+    PROCESSED_DIRECTORY: str = "data/processed"
+
+    VECTOR_DB_DIRECTORY: str = "data/vector_db"
 
     GEMINI_API_KEY: str = ""
 
