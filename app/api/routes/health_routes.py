@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+
 router = APIRouter(
     prefix="/health",
     tags=["Health"]
@@ -9,5 +10,6 @@ router = APIRouter(
 @router.get("/")
 async def health_check() -> dict:
     return {
-        "status": "healthy"
+        "status": "healthy",
+        "service": "Document RAG Assistant"
     }

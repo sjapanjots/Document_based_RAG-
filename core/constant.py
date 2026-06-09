@@ -1,4 +1,4 @@
-SUPPORTED_FILE_TYPES = [
+ALLOWED_EXTENSIONS = [
     ".pdf"
 ]
 
