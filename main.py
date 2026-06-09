@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 
-from app.api.routes.router import  api_router
+from app.api.routes.router import api_router
 from core.config import settings
-from core.logger import logger
+from core.logger import get_logger
+
+
+logger = get_logger(__name__)
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -12,15 +15,15 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup_event() -> None:
-    logger.info("Application started successfully")
+    logger.info("Application Started")
 
 
 @app.on_event("shutdown")
 async def shutdown_event() -> None:
-    logger.info("Application shutdown")
+    logger.info("Application Stopped")
 
 
 app.include_router(
     api_router,
-    prefix=settings.API_PREFIX
+    prefix="/api/v1"
 )
