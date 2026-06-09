@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.routes import api_router
+from app.api.routes.router import  api_router
 from core.config import settings
 from core.logger import logger
 
