@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.schemas.request import ChatRequest
 from app.schemas.response import ChatResponse
-from services.chat.chat_service import ChatService
+from services.container import container
 
 
 router = APIRouter(
@@ -10,7 +10,7 @@ router = APIRouter(
     tags=["Chat"]
 )
 
-chat_service = ChatService()
+chat_service = container.chat_service
 
 
 @router.post("/", response_model=ChatResponse)

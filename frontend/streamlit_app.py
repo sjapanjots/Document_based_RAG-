@@ -4,6 +4,9 @@ import streamlit as st
 
 API_BASE_URL = "http://localhost:8000/api/v1"
 
+if "document_indexed" not in st.session_state:
+    st.session_state["document_indexed"] = False
+
 
 st.set_page_config(
     page_title="Document RAG Assistant",
@@ -50,6 +53,7 @@ if uploaded_file:
             )
             if response.ok:
                 payload = response.json()
+                st.session_state["document_indexed"] = True
                 st.success(
                     f"Indexed {payload['filename']} "
                     f"({payload['chunk_count']} chunks)"
@@ -67,6 +71,8 @@ question = st.text_input("Enter your question")
 if st.button("Submit Query", use_container_width=True):
     if not question.strip():
         st.warning("Please enter a question.")
+    elif not st.session_state["document_indexed"]:
+        st.warning("Upload and index a PDF before asking questions.")
     else:
         try:
             response = requests.post(
@@ -78,6 +84,8 @@ if st.button("Submit Query", use_container_width=True):
                 payload = response.json()
                 st.session_state["last_answer"] = payload["answer"]
                 st.session_state["last_sources"] = payload["sources"]
+                if not payload["sources"]:
+                    st.warning("No indexed document chunks were found. Upload the PDF again.")
             else:
                 st.error(response.json().get("detail", "Chat failed."))
         except Exception as exception:

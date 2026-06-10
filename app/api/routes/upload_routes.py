@@ -9,7 +9,7 @@ from fastapi import (
 
 from core.config import settings
 from app.schemas.response import UploadResponse
-from services.pdf.pdfservice import PDFService
+from services.container import container
 from utils.file_handler import FileHandler
 from utils.validator import FileValidator
 
@@ -19,7 +19,7 @@ router = APIRouter(
     tags=["Upload"]
 )
 
-pdf_service = PDFService()
+pdf_service = container.pdf_service
 
 
 @router.post(
