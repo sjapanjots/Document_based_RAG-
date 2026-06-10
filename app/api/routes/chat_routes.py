@@ -19,6 +19,8 @@ async def chat(request: ChatRequest) -> ChatResponse:
         result = chat_service.ask(
             question=request.question,
             top_k=request.top_k,
+            gemini_api_key=request.gemini_api_key,
+            gemini_model=request.gemini_model,
         )
     except Exception as exception:
         raise HTTPException(

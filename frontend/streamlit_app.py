@@ -29,6 +29,24 @@ with st.sidebar:
         st.error("Backend Unavailable")
 
     st.divider()
+    st.header("Environment")
+    st.session_state["gemini_api_key"] = st.text_input(
+        "Gemini API key",
+        value=st.session_state.get("gemini_api_key", ""),
+        type="password",
+    )
+    st.session_state["gemini_model"] = st.text_input(
+        "Gemini model",
+        value=st.session_state.get("gemini_model", "gemini-1.5-flash"),
+    )
+    st.session_state["top_k"] = st.slider(
+        "Retrieved chunks",
+        min_value=1,
+        max_value=10,
+        value=int(st.session_state.get("top_k", 4)),
+    )
+
+    st.divider()
     st.write("Version: 1.0.0")
 
 st.subheader("Upload Document")
@@ -77,7 +95,12 @@ if st.button("Submit Query", use_container_width=True):
         try:
             response = requests.post(
                 f"{API_BASE_URL}/chat/",
-                json={"question": question},
+                json={
+                    "question": question,
+                    "top_k": st.session_state["top_k"],
+                    "gemini_api_key": st.session_state["gemini_api_key"] or None,
+                    "gemini_model": st.session_state["gemini_model"] or None,
+                },
                 timeout=60,
             )
             if response.ok:

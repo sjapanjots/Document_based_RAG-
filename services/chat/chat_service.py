@@ -14,11 +14,19 @@ class ChatService:
         self.retrieval_service = retrieval_service or RetrievalService()
         self.llm_service = llm_service or LLMService()
 
-    def ask(self, question: str, top_k: int | None = None) -> dict[str, Any]:
+    def ask(
+        self,
+        question: str,
+        top_k: int | None = None,
+        gemini_api_key: str | None = None,
+        gemini_model: str | None = None,
+    ) -> dict[str, Any]:
         sources = self.retrieval_service.retrieve(question, top_k or settings.TOP_K)
         answer = self.llm_service.answer(
             question,
             [source["text"] for source in sources],
+            gemini_api_key=gemini_api_key,
+            gemini_model=gemini_model,
         )
         return {
             "answer": answer,
