@@ -1,4 +1,6 @@
-import fitz
+from typing import Any, cast
+
+import pymupdf
 
 from services.pdf.pdf_reader import PDFReader
 
@@ -6,29 +8,30 @@ from services.pdf.pdf_reader import PDFReader
 class PyMuPDFReader(PDFReader):
 
     def extract_text(self, file_path: str) -> str:
-        document = fitz.open(file_path)
+        document = pymupdf.open(file_path)
 
-        text = ""
+        pages: list[str] = []
 
-        for page in document:
-            text += page.get_text()
+        try:
+            for page in document:
+                typed_page = cast(Any, page)
+                pages.append(typed_page.get_text("text"))
+        finally:
+            document.close()
 
-        document.close()
-
-        return text
+        return "\n".join(pages)
 
     def extract_metadata(
         self,
         file_path: str
-    ) -> dict:
+    ) -> dict[str, Any]:
 
-        document = fitz.open(file_path)
-
-        metadata = document.metadata
-
-        page_count = document.page_count
-
-        document.close()
+        document = pymupdf.open(file_path)
+        try:
+            metadata = document.metadata
+            page_count = document.page_count
+        finally:
+            document.close()
 
         return {
             "page_count": page_count,
