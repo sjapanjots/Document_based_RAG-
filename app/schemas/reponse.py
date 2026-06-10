@@ -1,10 +1,3 @@
-from pydantic import BaseModel
+from app.schemas.response import UploadResponse
 
-
-class UploadResponse(BaseModel):
-
-    filename: str
-
-    page_count: int
-
-    character_count: int
+__all__ = ["UploadResponse"]

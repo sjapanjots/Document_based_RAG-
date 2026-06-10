@@ -8,8 +8,8 @@ from fastapi import (
 )
 
 from core.config import settings
-from schemas.reponse import UploadResponse
-from services.pdf.pdf_reader import PDFReader
+from app.schemas.response import UploadResponse
+from services.pdf.pdfservice import PDFService
 from utils.file_handler import FileHandler
 from utils.validator import FileValidator
 
@@ -19,7 +19,7 @@ router = APIRouter(
     tags=["Upload"]
 )
 
-pdf_service = PDFReader()
+pdf_service = PDFService()
 
 
 @router.post(
@@ -72,14 +72,8 @@ async def upload_document(
     )
 
     try:
-
         contents = await file.read()
-
-        with open(
-            file_path,
-            "wb"
-        ) as buffer:
-            buffer.write(contents)
+        file_path.write_bytes(contents)
 
     except Exception as exception:
 
@@ -92,14 +86,26 @@ async def upload_document(
     # Process PDF
     # -----------------------------
 
-    document_info = (
-        pdf_service.process_document(
-            str(file_path)
+    try:
+        document_info = (
+            pdf_service.process_document(
+                str(file_path)
+            )
         )
-    )
+    except ValueError as exception:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exception),
+        ) from exception
+    except Exception as exception:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to process PDF: {exception}",
+        ) from exception
 
     return UploadResponse(
         filename=document_info["filename"],
         page_count=document_info["page_count"],
-        character_count=document_info["character_count"]
+        character_count=document_info["character_count"],
+        chunk_count=document_info["chunk_count"],
     )
