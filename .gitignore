@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Document RAG runtime data
+data/uploads/*
+data/processed/*
+data/vector_db/*
+!data/uploads/.gitkeep
+!data/processed/.gitkeep
+!data/vector_db/.gitkeep
+
+# Local model/cache artifacts
+.cache/
+models_cache/
+sentence_transformers/
