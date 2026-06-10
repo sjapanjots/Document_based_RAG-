@@ -18,6 +18,18 @@ class Settings(BaseSettings):
 
     GEMINI_API_KEY: str = ""
 
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+
+    EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
+
+    EMBEDDING_DIMENSION: int = 384
+
+    CHUNK_SIZE: int = 900
+
+    CHUNK_OVERLAP: int = 150
+
+    TOP_K: int = 4
+
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore"
