@@ -1,49 +1,225 @@
-# Enterprise Document Intelligence Assistant
+# Document Based RAG System
 
-A FastAPI and Streamlit Retrieval Augmented Generation application for uploading
-PDFs, indexing chunks, retrieving relevant passages, and answering questions
-with Gemini.
+## Overview
+
+Document Based RAG System is a Retrieval-Augmented Generation (RAG) application that allows users to upload PDF documents and interact with them using natural language queries.
+
+The system processes documents, extracts textual information, creates semantic embeddings, stores them in a vector database, retrieves the most relevant chunks, and generates context-aware responses using Large Language Models (LLMs).
+
+---
 
 ## Features
 
-- PDF upload and text extraction with PyMuPDF
-- Recursive and sliding-window chunking strategies
-- Sentence Transformers embeddings with deterministic local fallback
-- FAISS vector search with NumPy fallback
-- Gemini response generation with context-only prompting
-- FastAPI backend and Streamlit frontend
-- Docker-ready backend
+### Document Processing
 
-## Run Locally
+* PDF Upload Support
+* Text Extraction
+* Metadata Extraction
+* Document Validation
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload
+### Intelligent Chunking
+
+* Configurable Chunk Size
+* Overlapping Chunks
+* Context Preservation
+* Optimized Retrieval Performance
+
+### Embedding Generation
+
+* Transformer-based Embeddings
+* Semantic Representation
+* Batch Processing Support
+
+### Vector Search
+
+* Similarity Search
+* Top-K Retrieval
+* Fast Query Processing
+* Context Ranking
+
+### Question Answering
+
+* Retrieval-Augmented Generation
+* Context-Aware Responses
+* Reduced Hallucinations
+* Source Grounding
+
+### API Support
+
+* RESTful APIs
+* FastAPI Backend
+* Swagger Documentation
+* Async Processing
+
+### Scalable Architecture
+
+* Object-Oriented Design
+* Modular Components
+* Dependency Injection Ready
+* Easily Extendable
+
+---
+
+## Architecture
+
+User Query
+↓
+Retriever
+↓
+Vector Database
+↓
+Relevant Chunks
+↓
+LLM
+↓
+Generated Response
+
+Document Upload
+↓
+PDF Reader
+↓
+Text Extraction
+↓
+Chunking
+↓
+Embedding Generation
+↓
+Vector Store
+
+---
+
+## Tech Stack
+
+### Backend
+
+* Python
+* FastAPI
+* Pydantic
+
+### RAG Components
+
+* LangChain
+* Vector Database
+* Embedding Models
+* LLM Integration
+
+### Document Processing
+
+* PyPDF
+* PDF Processing Utilities
+
+### Deployment
+
+* Docker
+* Docker Compose
+
+---
+
+## Project Structure
+
+```text
+document_based_rag/
+│
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── services/
+│   ├── repositories/
+│   ├── models/
+│   ├── schemas/
+│   └── utils/
+│
+├── data/
+│   ├── uploads/
+│   ├── processed/
+│   └── vectors/
+│
+├── tests/
+│
+├── docs/
+│
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
-In another terminal:
+---
 
-```bash
-streamlit run frontend/streamlit_app.py
+## Workflow
+
+1. Upload PDF Document
+2. Extract Text Content
+3. Generate Chunks
+4. Create Embeddings
+5. Store in Vector Database
+6. User Submits Query
+7. Retrieve Relevant Chunks
+8. Generate Response using LLM
+9. Return Context-Aware Answer
+
+---
+
+## API Endpoints
+
+### Upload Document
+
+```http
+POST /documents/upload
 ```
 
-Backend API: `http://localhost:8000/api/v1`
+### Process Document
 
-## Environment
-
-Create a `.env` file to enable Gemini:
-
-```env
-GEMINI_API_KEY=your_api_key_here
+```http
+POST /documents/process
 ```
 
-The app still works without a key by returning the most relevant retrieved
-document context.
+### Ask Question
 
-## Test
-
-```bash
-pytest -q
+```http
+POST /chat/query
 ```
+
+### Health Check
+
+```http
+GET /health
+```
+
+---
+
+## Use Cases
+
+* Research Assistant
+* Legal Document Search
+* Enterprise Knowledge Base
+* Technical Documentation Assistant
+* Academic Paper Analysis
+* Customer Support Automation
+
+---
+
+## Future Enhancements
+
+* Multi-Document Retrieval
+* Hybrid Search (Keyword + Semantic)
+* Metadata Filtering
+* OCR Support
+* Multi-Modal RAG
+* Conversation Memory
+* Re-Ranking Pipelines
+* Streaming Responses
+
+---
+
+## License
+
+MIT License
+
+---
+
+## Author
+
+Japanjot Singh
+
+AI Engineer | Researcher | Backend Developer
